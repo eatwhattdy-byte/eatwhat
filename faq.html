@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frequently Asked Questions — The Exchange Desk</title>
+<meta name="description" content="Answers to common questions about how The Exchange Desk's live converter works, where rates come from, and how to use them.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .faq-list { max-width: 72ch; margin: 0 auto; padding: 48px 28px 70px; }
+  .faq-item {
+    border-bottom: 1px solid var(--hairline);
+    padding: 22px 0;
+  }
+  .faq-item:first-child { padding-top: 0; }
+  .faq-q {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .faq-a { color: #2C3A52; margin: 0; }
+  .faq-a a { color: var(--brass-dim); }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html"><span class="mark">$↔€</span> The Exchange Desk</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Convert</a></li>
+      <li><a href="index.html#rates">Live Rates</a></li>
+      <li><a href="articles.html">Guides</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="faq.html" aria-current="page">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main" class="static-page">
+  <div class="page-hero">
+    <div class="wrap">
+      <p class="meta">FAQ</p>
+      <h1>Frequently asked questions</h1>
+    </div>
+  </div>
+
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <p class="faq-q">Where do the exchange rates on this site come from?</p>
+      <p class="faq-a">Live rates are sourced from CurrencyFreaks, which aggregates data from forex exchanges, cryptocurrency exchanges, and national banks into one feed. Rates refresh hourly on our end. See our <a href="about.html">About page</a> for more on how we use this data.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Why is the rate here different from the rate my bank offered me?</p>
+      <p class="faq-a">The rate shown here is the mid-market reference rate — the midpoint between buy and sell prices on the global currency market, with no markup added. Banks, card issuers, and money transfer providers almost always add their own margin on top of this rate, which is why their quoted rate is usually a bit worse than what you see here. See <a href="articles/remittance-fees-guide.html">Remittance Fees: What You're Really Paying</a> for more on how that margin gets built in.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">How often are the rates updated?</p>
+      <p class="faq-a">The converter and rate grid refresh automatically roughly once an hour. Rates are cached briefly in your browser between visits so the site doesn't need to make a fresh request every time you load a page.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Which currencies does the converter support?</p>
+      <p class="faq-a">All fiat (real-world, government-issued) currencies our data provider covers — currently 166 currencies, from major ones like USD and EUR to less common ones. Use the search field in the From/To pickers to find any currency by code or name. Cryptocurrencies and precious metals aren't included, to keep the converter focused on everyday currency conversion.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Can I use this site to actually send or exchange money?</p>
+      <p class="faq-a">No. This is an informational tool only — we don't process transfers, hold funds, or facilitate any transaction. Think of it as a reference point to check before you use your bank, a currency exchange counter, or a transfer provider, so you know roughly what a fair rate looks like.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Is the converter free to use?</p>
+      <p class="faq-a">Yes, entirely. There's no sign-up, no account, and no limit on how many conversions you can run.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Why did the rate change slightly since I last checked?</p>
+      <p class="faq-a">Exchange rates move continuously on the global market based on things like interest rate expectations, economic data, and trading activity. Small movements between checks are completely normal — see <a href="articles/understanding-exchange-rates.html">What Actually Moves an Exchange Rate?</a> if you want the full explanation.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Do you store any of my personal data?</p>
+      <p class="faq-a">We don't require an account, and we don't collect personal information beyond what's described in our <a href="privacy-policy.html">Privacy Policy</a>. Your currency selections may be remembered locally in your browser for convenience, but that stays on your device.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">I found an error or have a suggestion — who do I tell?</p>
+      <p class="faq-a">Reach out via our <a href="contact.html">Contact page</a>. We read every message, even if it takes a few days to reply.</p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>The Exchange Desk</h4>
+        <p style="max-width:38ch;color:#9FAAC0;">A live currency converter built for people who want the rate and the reasoning behind it.</p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="index.html">Convert</a></li>
+          <li><a href="articles.html">Guides</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Exchange Desk.</span>
+      <span class="disclaimer">For informational purposes only; not financial advice.</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
