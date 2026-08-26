@@ -1,223 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>The Exchange Desk — Live Currency Converter &amp; Exchange Rate Guides</title>
-<meta name="description" content="A live currency converter covering every fiat currency CurrencyFreaks supports, paired with plain-English guides on exchange rates, travel money, and cross-border transfers.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<style>
-  .retry-link {
-    background: none;
-    border: none;
-    color: var(--brass);
-    text-decoration: underline;
-    font-family: inherit;
-    font-size: inherit;
-    cursor: pointer;
-    padding: 0;
-  }
-  .search-field {
-    position: relative;
-    flex: 0 0 auto;
-  }
-  .search-field input {
-    font-family: var(--font-body);
-    border: 1px solid var(--hairline);
-    border-radius: var(--radius-pill);
-    background: var(--paper-raised);
-    color: var(--ink);
-  }
-  .search-field input:focus { border-color: var(--brass); }
-  .search-field svg {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 14px;
-    height: 14px;
-    opacity: 0.5;
-  }
-  .base-picker { display: flex; align-items: center; flex-wrap: wrap; }
-  .base-picker select { border-radius: var(--radius-pill); }
-</style>
-</head>
-<body data-from-default="USD" data-to-default="EUR">
-<a class="skip-link" href="#main">Skip to content</a>
-
-<header class="site-header">
-  <nav class="nav">
-    <a class="brand" href="index.html"><span class="mark">$↔€</span> The Exchange Desk</a>
-    <ul class="nav-links">
-      <li><a href="index.html" aria-current="page">Convert</a></li>
-      <li><a href="index.html#rates">Live Rates</a></li>
-      <li><a href="articles.html">Guides</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-
-<main id="main">
-
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <p class="eyebrow">Live · No sign-up</p>
-        <h1>Know what your money is really worth, right now.</h1>
-        <p class="lead">A currency converter covering every fiat currency our data provider supports — plus the plain-English guides on exchange rates, travel money, and transfer fees that most converters skip.</p>
-        <p class="updated" id="hero-updated"><span class="dot"></span>Rates as of <span class="stamp-date">loading…</span></p>
-      </div>
-
-      <div class="converter">
-        <form id="converter-form">
-          <div class="converter-row">
-            <div class="field">
-              <label for="from-currency-trigger">From</label>
-              <div class="ccy-picker" id="from-currency-picker" data-default="USD">
-                <input type="hidden" id="from-currency">
-                <button type="button" id="from-currency-trigger" class="ccy-trigger" aria-haspopup="listbox" aria-expanded="false"></button>
-                <div class="ccy-panel" hidden>
-                  <input type="text" class="ccy-search" placeholder="Search currency…" aria-label="Search currency">
-                  <ul class="ccy-list" role="listbox"></ul>
-                </div>
-              </div>
-            </div>
-            <button type="button" class="swap-btn" id="swap-btn" aria-label="Swap currencies">⇄</button>
-            <div class="field">
-              <label for="to-currency-trigger">To</label>
-              <div class="ccy-picker" id="to-currency-picker" data-default="EUR">
-                <input type="hidden" id="to-currency">
-                <button type="button" id="to-currency-trigger" class="ccy-trigger" aria-haspopup="listbox" aria-expanded="false"></button>
-                <div class="ccy-panel" hidden>
-                  <input type="text" class="ccy-search" placeholder="Search currency…" aria-label="Search currency">
-                  <ul class="ccy-list" role="listbox"></ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field" style="margin-bottom:18px;">
-            <label for="amount">Amount</label>
-            <input type="number" id="amount" inputmode="decimal" value="100" min="0" step="any">
-          </div>
-          <div class="result-board">
-            <span class="result-figure" id="result-figure">—</span>
-            <span class="result-sub" id="result-sub">Fetching live rate…</span>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="rates">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <h2>Live rate grid</h2>
-          <p class="sub">Every fiat currency our data provider supports, converted from a base you choose.</p>
-        </div>
-        <div class="base-picker" style="gap:16px;">
-          <div class="search-field" style="margin:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="left:10px;"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="grid-filter" placeholder="Filter (e.g. JPY)" aria-label="Filter currencies" style="padding:8px 10px 8px 32px;font-size:0.82rem;max-width:150px;">
-          </div>
-          <label for="grid-base-trigger">Base currency</label>
-          <div class="ccy-picker ccy-picker-light" id="grid-base-picker" data-default="USD">
-            <input type="hidden" id="grid-base">
-            <button type="button" id="grid-base-trigger" class="ccy-trigger" aria-haspopup="listbox" aria-expanded="false"></button>
-            <div class="ccy-panel" hidden>
-              <input type="text" class="ccy-search" placeholder="Search currency…" aria-label="Search base currency">
-              <ul class="ccy-list" role="listbox"></ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="rate-grid" id="rate-grid"><p class="grid-note">Loading live rates…</p></div>
-      <p class="grid-note" id="grid-note"></p>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:0;">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <h2>Latest guides</h2>
-          <p class="sub">Context for the numbers above — written for travelers, freelancers, and small businesses.</p>
-        </div>
-        <a href="articles.html" class="btn-ghost btn">All guides</a>
-      </div>
-      <div class="card-row">
-        <a class="card" href="articles/understanding-exchange-rates.html">
-          <p class="tag">Fundamentals</p>
-          <h3>What Actually Moves an Exchange Rate?</h3>
-          <p>Interest rates, inflation, and trade flows explained without the jargon — and how to read the movement, not just the number.</p>
-        </a>
-        <a class="card" href="articles/best-time-exchange-currency-travel.html">
-          <p class="tag">Travel</p>
-          <h3>The Best Time to Exchange Currency for a Trip</h3>
-          <p>Airport kiosks, banks, and cards compared — plus a simple rule for when to buy currency ahead versus on arrival.</p>
-        </a>
-        <a class="card" href="articles/remittance-fees-guide.html">
-          <p class="tag">Transfers</p>
-          <h3>Remittance Fees: What You're Really Paying</h3>
-          <p>The advertised rate is rarely the real rate. Here's how to spot the hidden margin on international transfers.</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="trust reveal">
-    <div class="wrap">
-      <div>
-        <h2>Why the numbers here are trustworthy</h2>
-        <p>Rates are sourced from CurrencyFreaks. This site shows real, country-issued currencies only — cryptocurrencies and stablecoins are filtered out — with no markup and no hidden spread, refreshed hourly.</p>
-      </div>
-      <div class="trust-facts">
-        <div><span class="num">156</span><span class="lbl">Fiat currencies covered</span></div>
-        <div><span class="num">USD</span><span class="lbl">Base rate currency</span></div>
-        <div><span class="num">CF</span><span class="lbl">Primary data source</span></div>
-        <div><span class="num">0%</span><span class="lbl">Markup on quoted rates</span></div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <h4>The Exchange Desk</h4>
-        <p style="max-width:38ch;color:#9FAAC0;">A live currency converter built for people who want the rate and the reasoning behind it. Not financial advice — always confirm rates with your bank or provider before transacting.</p>
-      </div>
-      <div>
-        <h4>Site</h4>
-        <ul>
-          <li><a href="index.html">Convert</a></li>
-          <li><a href="articles.html">Guides</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="privacy-policy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 The Exchange Desk.</span>
-      <span class="disclaimer">Live rates sourced from CurrencyFreaks. For informational purposes only — always confirm the exact rate with your bank or provider before transacting.</span>
-    </div>
-  </div>
-</footer>
-
-<script src="js/main.js"></script>
-</body>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EATWHAT makes the next meal easy, from home-cooked dishes to Adelaide restaurants.">
+  <title>EATWHAT — Your next great meal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="version-badge.css"></head>
+<body>
+  <header class="site-header"><a class="logo" href="index.html">EAT<span>WHAT</span><i>?</i></a><nav aria-label="Primary"><a class="active" href="index.html">Home</a><a href="dish.html">Pick a dish</a><a href="restro.html">Find a table</a><a href="restaurant.html">Restaurants</a><a href="dishes.html">Dishes</a><a href="#about">About</a></nav><a class="header-cta" href="dish.html">I'm hungry <span>↗</span></a></header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy"><p class="eyebrow">YOUR HUNGER, SORTED</p><h1>LESS <em>“WHAT IF?”</em><br>MORE <span>“YUM.”</span></h1><p class="hero-lead">A beautifully opinionated food picker for the nights when deciding is the hardest part of dinner.</p><div class="actions"><a href="dish.html" class="button button-dark">Pick a dish <b>→</b></a><a href="restro.html" class="button button-light">Find Adelaide food <b>→</b></a></div><p class="microcopy">No account. No endless scrolling. Just a good call.</p></div>
+      <div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-plate"><span class="art-noodle">〰</span><span class="art-pepper pepper-one">●</span><span class="art-pepper pepper-two">●</span><span class="art-leaf leaf-one">✦</span><span class="art-leaf leaf-two">✦</span><strong>YUM</strong></div><div class="art-label label-top">NOODLE<br>ENERGY <b>✦</b></div><div class="art-label label-bottom">GOOD<br>CHOICE <b>☺</b></div></div>
+    </section>
+    <section class="ticker" aria-label="Cuisines"><div>THAI <i>✦</i> VIETNAMESE <i>✦</i> ITALIAN <i>✦</i> INDIAN <i>✦</i> JAPANESE <i>✦</i> MEXICAN <i>✦</i> GREEK <i>✦</i> KOREAN <i>✦</i> THAI <i>✦</i> VIETNAMESE <i>✦</i></div></section>
+    <section class="jump-grid"><a class="jump-card dish-jump" href="dish.html"><p class="eyebrow">01 / AT HOME</p><h2>LET FATE<br><em>FEED YOU.</em></h2><p>Spin a dish idea from cuisines around the world, then head to a recipe source when something lands.</p><span>Spin the dish <b>→</b></span></a><a class="jump-card restro-jump" href="restro.html"><p class="eyebrow">02 / OUT TONIGHT</p><h2>WHERE TO<br><em>TONIGHT?</em></h2><p>Let a hand-picked Adelaide restaurant take care of the decision. Map included.</p><span>Find a table <b>→</b></span></a></section>
+    <section class="how-it-works"><div class="section-title"><p class="eyebrow">THE SIMPLE BIT</p><h2>HOW IT <em>WORKS</em></h2></div><ol><li><b>01</b><h3>Set the mood</h3><p>Choose a cuisine or dining style—or leave it wide open.</p></li><li><b>02</b><h3>Give it a spin</h3><p>We’ll flick through the possibilities and land on one.</p></li><li><b>03</b><h3>Make it happen</h3><p>Follow a recipe link or open the restaurant straight in Maps.</p></li></ol></section>
+    <section class="about" id="about"><p class="eyebrow">A LITTLE ABOUT EATWHAT</p><div><h2>THE ONLY BAD<br>CHOICE IS <em>HANGRY.</em></h2><p>Made in Adelaide for anyone who has opened the fridge, stared into the void, and thought: “I genuinely have no idea.” EATWHAT is a nudge, not a rule book—use it as a delicious starting point.</p><a class="text-link" href="privacy.html">Privacy &amp; site policy <b>→</b></a></div></section>
+  </main>
+  <footer><a class="logo" href="index.html">EAT<span>WHAT</span><i>?</i></a><p>Made for hungry people in Adelaide &amp; everywhere.</p><div><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="restaurant.html">Restaurants</a><a href="dishes.html">Dishes</a><a href="comment.html">Feedback</a></div></footer>
+<a class="version" href="version.html">v1.1</a></body>
 </html>
