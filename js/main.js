@@ -1,33 +1,9 @@
-/* ============================================================
-   THE EXCHANGE DESK — live rates
-   Data source: CurrencyFreaks (https://currencyfreaks.com) — sole source
-   for live rates only. Currency names come from a fixed local list, not
-   from CurrencyFreaks' /supported-currencies endpoint — that endpoint's
-   own fiat/crypto classification proved unreliable in practice (it let
-   stablecoins/crypto tickers like RLUSD and ALIGN through as "fiat"), so
-   the only robust fix is to stop trusting it and use a fixed allowlist
-   of real ISO country currencies instead. Whatever CurrencyFreaks
-   returns is filtered against this list — nothing outside it can ever
-   appear, regardless of how the API classifies it.
-   ------------------------------------------------------------
-   - /v2.0/rates/latest gives live rates (USD base on the free plan;
-     every other pair is computed client-side via USD).
-   - No flags are shown anywhere — currency code + name only.
-   - The API key is visible to anyone who views page source, and the
-     free plan is capped at 1,000 calls/month shared across every
-     visitor. Rates are cached in localStorage for 60 minutes.
-   ============================================================ */
-
 const CF_API_KEY = '629af430d3c440b7958ccb294f81d361';
 const CF_LATEST_URL = `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=${CF_API_KEY}`;
 const REFRESH_MS = 60 * 60 * 1000; // 60 minutes
 const RATES_CACHE_KEY = 'exchangeDeskRatesCache_v4';
-const FETCH_TIMEOUT_MS = 8000;
+const FETCH_TIMEOUT_MS = 15000; // generous margin for slower mobile/cellular connections
 
-// The authoritative list of real, country-issued currencies this site will ever show.
-// Anything CurrencyFreaks returns that isn't a key in this object — crypto, stablecoins,
-// precious metals, or anything else — is silently excluded, no matter what the API's own
-// "type" field claims about it.
 const FIAT_CURRENCIES = {
   AED: 'UAE Dirham', AFN: 'Afghan Afghani', ALL: 'Albanian Lek', AMD: 'Armenian Dram',
   ANG: 'Netherlands Antillean Guilder', AOA: 'Angolan Kwanza', ARS: 'Argentine Peso',
@@ -217,7 +193,22 @@ function initCurrencyPicker(rootEl, initialCode, onChange) {
     trigger.setAttribute('aria-expanded', 'true');
     renderList('');
     searchInput.value = '';
+    panel.style.transform = ''; // reset before re-measuring against the current viewport
+    requestAnimationFrame(() => clampPanelToViewport());
     setTimeout(() => searchInput.focus(), 0);
+  }
+
+  // The panel is centered under its trigger by default (see CSS), which works fine on
+  // desktop but can push off-screen on mobile when the trigger sits near a screen edge —
+  // nudge it back into view instead of letting it clip or force horizontal scroll.
+  function clampPanelToViewport() {
+    const rect = panel.getBoundingClientRect();
+    const margin = 8;
+    if (rect.left < margin) {
+      panel.style.transform = `translateX(calc(-50% + ${margin - rect.left}px))`;
+    } else if (rect.right > window.innerWidth - margin) {
+      panel.style.transform = `translateX(calc(-50% - ${rect.right - (window.innerWidth - margin)}px))`;
+    }
   }
 
   function closePanel() {
@@ -380,22 +371,34 @@ async function initGrid() {
 }
 
 /* ---------------- Scroll reveal ---------------- */
+// Used sparingly now — only for the decorative trust strip, never for primary functional
+// content (a scroll-triggered animation should never be able to hide something the page
+// actually needs to work). A hard fallback timer forces visibility regardless of whether
+// IntersectionObserver ever fires, so nothing can get stuck invisible on any device.
 function initReveal() {
   const targets = document.querySelectorAll('.reveal');
   if (!targets.length) return;
+
+  const reveal = (el) => el.classList.add('in');
+
   if (!('IntersectionObserver' in window)) {
-    targets.forEach(el => el.classList.add('in'));
+    targets.forEach(reveal);
     return;
   }
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('in');
+        reveal(entry.target);
         io.unobserve(entry.target);
       }
     });
   }, { threshold: 0.12 });
   targets.forEach(el => io.observe(el));
+
+  // Safety net: whatever the reason an element might not have revealed itself yet,
+  // force it visible after 3s so it's never permanently stuck.
+  setTimeout(() => targets.forEach(reveal), 3000);
 }
 
 function debounce(fn, wait) {
@@ -413,8 +416,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (e) {
     /* fall through — converter/grid show their own retry states */
   }
-  initConverter();
-  initGrid();
+  // Each component is isolated: if one throws, it can't take the rest of the page down with it.
+  try { initConverter(); } catch (e) { console.error('Converter failed to initialize:', e); }
+  try { initGrid(); } catch (e) { console.error('Rate grid failed to initialize:', e); }
   setInterval(() => {
     ratesCache = { base: null, date: null, rates: null, fetchedAt: null, stale: false };
     ensureRates();

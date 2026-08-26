@@ -284,8 +284,9 @@ a { color: inherit; }
 .ccy-panel {
   position: absolute;
   top: calc(100% + 6px);
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(300px, 92vw);
   background: #0A1626;
   border: 1px solid #2E4468;
   border-radius: var(--radius-sm);
@@ -326,6 +327,35 @@ a { color: inherit; }
 .ccy-opt-name { color: #9FAAC0; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ccy-empty { color: var(--ink-faint); font-family: var(--font-mono); font-size: 0.82rem; padding: 14px 10px; cursor: default; }
 .ccy-empty:hover { background: none; }
+
+/* Light variant — for pickers placed on the pale paper background instead of the dark converter */
+.ccy-picker-light .ccy-trigger {
+  background: var(--paper-raised);
+  border: 1px solid var(--hairline);
+  color: var(--ink);
+  padding: 11px 14px;
+  font-size: 0.9rem;
+  border-radius: var(--radius-pill);
+  width: auto;
+  min-width: 130px;
+  min-height: 44px;
+}
+.ccy-picker-light .ccy-trigger:hover,
+.ccy-picker-light .ccy-trigger[aria-expanded="true"] { border-color: var(--brass); }
+.ccy-picker-light .ccy-panel {
+  background: var(--paper-raised);
+  border: 1px solid var(--hairline);
+  min-width: 220px;
+}
+.ccy-picker-light .ccy-search {
+  background: var(--paper);
+  color: var(--ink);
+  border-bottom: 1px solid var(--hairline);
+}
+.ccy-picker-light .ccy-search:focus { background: #fff; }
+.ccy-picker-light .ccy-list li:hover { background: rgba(201,162,39,0.14); }
+.ccy-picker-light .ccy-opt-code { color: var(--brass-dim); }
+.ccy-picker-light .ccy-opt-name { color: var(--ink-faint); }
 
 .result-board {
   border-top: 1px dashed #2E4468;
